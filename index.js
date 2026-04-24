@@ -3,12 +3,27 @@ const app = express();
 
 app.use(express.json());
 
-// test server
+// 1. Cek status server (Muncul di browser)
 app.get("/", (req, res) => {
   res.send("License Server Running 🚀");
 });
 
-// validasi license
+// 2. Endpoint LOGIN (Dipanggil oleh RBA Studio auth.js)
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
+
+  // Sesuaikan username & password di sini
+  if (username === "admin" && password === "admin123") {
+    return res.json({ 
+      success: true, 
+      user: { username: "admin", role: "admin" } 
+    });
+  }
+
+  res.json({ success: false, reason: "Username atau Password salah!" });
+});
+
+// 3. Endpoint VALIDASI LICENSE (Untuk fitur lisensi Anda)
 app.post("/validate", (req, res) => {
   const { license_key } = req.body;
 
@@ -19,5 +34,6 @@ app.post("/validate", (req, res) => {
   res.json({ valid: false });
 });
 
-const PORT = process.env.PORT || 3000;
+// Gunakan PORT dari Railway atau default ke 8080
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log("Server jalan di port " + PORT));
