@@ -5,6 +5,7 @@ const crypto = require("crypto");
 
 const app = express();
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
 
 // =====================================================
 // DATABASE FILES
@@ -113,9 +114,9 @@ let devices = {};
 // };
 
 // =====================================================
-// ROUTE 1: STATUS SERVER
+// ROUTE 1: DASHBOARD (served from public/index.html via static)
 // =====================================================
-app.get("/", (req, res) => {
+app.get("/api/status", (req, res) => {
   const now = Date.now();
   const onlineCount = Object.values(devices).filter(
     (d) => now - new Date(d.lastSeen).getTime() < 15000
