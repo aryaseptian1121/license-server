@@ -1,2 +1,2 @@
-# license-server
+# RBA-Studio-App
 backend license app
